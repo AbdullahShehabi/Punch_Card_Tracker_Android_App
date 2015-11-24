@@ -47,10 +47,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/addUserSubmitButton"
         android:src="@drawable/submit_false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:paddingBottom="20dp"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:layout_below="@+id/emailAddress"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
