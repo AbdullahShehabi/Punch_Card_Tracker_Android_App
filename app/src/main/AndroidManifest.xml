@@ -8,26 +8,30 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AddUserActivity"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".SearchUserActivity"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".MainActivity" >
-        </activity>
-        <activity android:name=".UserProfileActivity"
-            android:screenOrientation="landscape"
             android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+            android:name=".UserProfileActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity android:name=".RemoveUserActivity" >
         </activity>
     </application>
 

@@ -27,7 +27,7 @@
         android:padding="10dp"
         android:scaleType="fitXY"
         android:background="@color/white"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
@@ -38,7 +38,7 @@
         android:padding="10dp"
         android:scaleType="fitXY"
         android:background="@color/white"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/addUserButton"
         android:layout_toRightOf="@+id/searchUserButton"
         android:layout_toEndOf="@+id/searchUserButton" />
 
@@ -48,8 +48,7 @@
         android:id="@+id/imageView"
         android:src="@drawable/buve_it_logo"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/searchUserButton"
-        android:layout_alignEnd="@+id/searchUserButton" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(searchUserActivity);
             }
         });
+
+        removeUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent removeUserActivity = new Intent(view.getContext(), RemoveUserActivity.class);
+                startActivity(removeUserActivity);
+            }
+        });
     }
 
 

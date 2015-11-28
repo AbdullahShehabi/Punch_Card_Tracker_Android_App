@@ -1,10 +1,12 @@
 package com.xerorex.buvit;
 
-import android.content.ClipData;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,13 +15,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class SearchUserActivity extends AppCompatActivity {
+public class RemoveUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_user);
-
+        setContentView(R.layout.activity_remove_user);
         configureView();
         populateFoundUsersList();
     }
@@ -27,14 +28,14 @@ public class SearchUserActivity extends AppCompatActivity {
     private void configureView() {
 
         //Search bar related methods
-        EditText searchBar = (EditText) findViewById(R.id.search_user_activity_search_bar);
+        EditText searchBar = (EditText) findViewById(R.id.remove_user_activity_search_bar);
         searchBar.setHint("Search User...");
 
     }
 
     private void populateFoundUsersList() {
 
-        ListView foundUserList = (ListView) findViewById(R.id.search_user_activity_found_users);
+        ListView foundUserList = (ListView) findViewById(R.id.remove_user_activity_found_users);
 
 
         final ArrayList<UserProfile> foundUsers = new ArrayList<>();
@@ -60,13 +61,38 @@ public class SearchUserActivity extends AppCompatActivity {
 
                 UserProfile userProfile = foundUsers.get(position);
 
-                Intent startUserActvity = new Intent(getApplicationContext(), UserProfileActivity.class);
-                startUserActvity.putExtra("ChosenUserProfile", userProfile);
-                startActivity(startUserActvity);
+                AlertDialog checkRemoveUser = AskOption();
+                checkRemoveUser.show();
             }
         });
 
+    }
 
+    private AlertDialog AskOption()
+    {
+        AlertDialog myQuittingDialogBox =new AlertDialog.Builder(this)
+                //set message, title, and icon
+                .setTitle("Remove User")
+                .setMessage("Deleting user will remove the user from the store's user directory, press \"delete\" to confirm.")
+
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //your deleting code
+                        dialog.dismiss();
+                    }
+
+                })
+
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
 
     }
 

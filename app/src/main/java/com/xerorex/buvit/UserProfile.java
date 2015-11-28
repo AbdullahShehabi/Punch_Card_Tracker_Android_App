@@ -1,9 +1,11 @@
 package com.xerorex.buvit;
 
+import java.io.Serializable;
+
 /**
  * Created by Abdullah Al-Shehabi on 11/21/2015.
  */
-public class UserProfile {
+public class UserProfile implements Serializable{
 
     private String first_name;
     private String last_name;

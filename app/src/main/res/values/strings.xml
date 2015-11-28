@@ -1,6 +1,6 @@
 <resources>
     <!--All app references-->
-    <string name="app_name">BUViT</string>
+    <string name="app_name">Babo</string>
     
     <!-- Add user activity-->
     <string name="add_user_title">Add User</string>

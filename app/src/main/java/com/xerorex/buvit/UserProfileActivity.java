@@ -11,18 +11,21 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 public class UserProfileActivity extends AppCompatActivity {
 
     private RelativeLayout userProfileLayout;
     private GridLayout gridLayout;
 
     private int WRAP_CONTENT = RelativeLayout.LayoutParams.WRAP_CONTENT;
-    private final int NUMBER_OF_PUNCHES = 9;
+    private final int MAX_NUMBER_OF_PUNCHES = 9;
     private ImageButton[] arrayOfButtons;
     private ImageButtonListener buttonListener;
-    public int updatePunchNumbers = 0;
-
     int padding;
+
+    UserProfile userProfile;
+    private int usersPunches = 0;
 
 
     @Override
@@ -30,21 +33,29 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        setUserProfileTitle();
+        userProfile = getUserProfile();
+
+        addProfileTitle();
         addPunchMarks();
         addSaveButton();
     }
 
-    private void setUserProfileTitle() {
+    private UserProfile getUserProfile(){
+        UserProfile userProfile = (UserProfile) getIntent().getSerializableExtra("ChosenUserProfile");
+        usersPunches = userProfile.getNumberOfPunches();
+        return userProfile;
+    }
+
+    private void addProfileTitle() {
         TextView activityTitle = (TextView) findViewById(R.id.user_profile_acitivity_username);
-        activityTitle.setText("Random Name");
+        activityTitle.setText((CharSequence) userProfile.getFull_name());
     }
 
     private void addPunchMarks() {
 
         //Relative layout from xml file reference
         userProfileLayout = (RelativeLayout) findViewById(R.id.user_profile_acitivity_layout);
-        arrayOfButtons = new ImageButton[NUMBER_OF_PUNCHES];
+        arrayOfButtons = new ImageButton[MAX_NUMBER_OF_PUNCHES];
 
         //ButtonLayoutParams params configuration
         RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
@@ -69,9 +80,31 @@ public class UserProfileActivity extends AppCompatActivity {
 
         buttonListener = new ImageButtonListener();
 
+        ImageButton thisButton;
         //For loop populating gridlayout with buttons
-        for (ImageButton thisButton : arrayOfButtons) {
+        for (int i = 0; i < usersPunches; i++) {
+
             thisButton = new ImageButton(this);
+            arrayOfButtons[i] = thisButton;
+
+            thisButton.setPadding(padding, padding, padding, padding);
+            thisButton.setLayoutParams(buttonLayoutParams);
+            thisButton.setBackgroundColor(Color.WHITE);
+
+            thisButton.setImageResource(R.drawable.user_profile_punch_pressed);
+            thisButton.setTag(R.drawable.user_profile_punch_pressed);
+            thisButton.setOnClickListener(buttonListener);
+
+            thisButton.setId(counter++);
+            gridLayout.addView(thisButton);
+        }
+
+
+        //For loop populating gridlayout with buttons
+        for (int i = usersPunches; i < MAX_NUMBER_OF_PUNCHES; i++) {
+
+            thisButton = new ImageButton(this);
+            arrayOfButtons[i] = thisButton;
 
             thisButton.setPadding(padding, padding, padding, padding);
             thisButton.setLayoutParams(buttonLayoutParams);
@@ -112,12 +145,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
             switch (button) {
                 case 109:
-                    if (view.getTag().equals(R.drawable.user_profile_punch_free_false) && updatePunchNumbers == 9) {
+                    if (view.getTag().equals(R.drawable.user_profile_punch_free_false) && usersPunches == MAX_NUMBER_OF_PUNCHES) {
                         imageButton.setImageResource(R.drawable.user_profile_punch_free_true);
                         imageButton.setTag(R.drawable.user_profile_punch_free_true);
                         imageButton.setOnClickListener(buttonListener);
                         freePunch = true;
-                    } else if (view.getTag().equals(R.drawable.user_profile_punch_free_true) && updatePunchNumbers == 9) {
+                    } else if (view.getTag().equals(R.drawable.user_profile_punch_free_true) && usersPunches == MAX_NUMBER_OF_PUNCHES) {
                         imageButton.setImageResource(R.drawable.user_profile_punch_free_false);
                         imageButton.setTag(R.drawable.user_profile_punch_free_false);
                         imageButton.setOnClickListener(buttonListener);
@@ -130,12 +163,12 @@ public class UserProfileActivity extends AppCompatActivity {
                         imageButton.setImageResource(R.drawable.user_profile_punch_pressed);
                         imageButton.setTag(R.drawable.user_profile_punch_pressed);
                         imageButton.setOnClickListener(buttonListener);
-                        updatePunchNumbers++;
+                        usersPunches++;
                     } else if (view.getTag().equals(R.drawable.user_profile_punch_pressed) && freePunch != true) {
                         imageButton.setImageResource(R.drawable.user_profile_punch_unpressed);
                         imageButton.setTag(R.drawable.user_profile_punch_unpressed);
                         imageButton.setOnClickListener(buttonListener);
-                        updatePunchNumbers--;
+                        usersPunches--;
                         break;
                     }
 
@@ -163,7 +196,7 @@ public class UserProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("testing", "save button clicked");
+                userProfile.setNumberOfPunches(usersPunches);
             }
         });
 
