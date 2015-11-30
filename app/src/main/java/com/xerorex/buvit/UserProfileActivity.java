@@ -1,17 +1,14 @@
 package com.xerorex.buvit;
 
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.Serializable;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -40,17 +37,20 @@ public class UserProfileActivity extends AppCompatActivity {
         addSaveButton();
     }
 
+    //Gets the passed user profile from the search activity
     private UserProfile getUserProfile(){
         UserProfile userProfile = (UserProfile) getIntent().getSerializableExtra("ChosenUserProfile");
         usersPunches = userProfile.getNumberOfPunches();
         return userProfile;
     }
 
+    //Adds the name of the user to the title of the activity
     private void addProfileTitle() {
         TextView activityTitle = (TextView) findViewById(R.id.user_profile_acitivity_username);
         activityTitle.setText((CharSequence) userProfile.getFull_name());
     }
 
+    //Adds the punch marks available in the UserProfileActivity to show how many the user orginally had and allows to add more
     private void addPunchMarks() {
 
         //Relative layout from xml file reference
@@ -81,6 +81,7 @@ public class UserProfileActivity extends AppCompatActivity {
         buttonListener = new ImageButtonListener();
 
         ImageButton thisButton;
+
         //For loop populating gridlayout with buttons
         for (int i = 0; i < usersPunches; i++) {
 
@@ -118,6 +119,7 @@ public class UserProfileActivity extends AppCompatActivity {
             gridLayout.addView(thisButton);
         }
 
+        //Adding last image button of the free punch
         ImageButton freePunch = new ImageButton(this);
 
         freePunch.setPadding(padding, padding, padding, padding);
@@ -134,6 +136,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
+    //Private class for the ImageButtonListener implementing OnClickListener
     private class ImageButtonListener implements View.OnClickListener {
 
         boolean freePunch = false;

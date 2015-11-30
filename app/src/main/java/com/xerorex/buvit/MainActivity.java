@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Populates the main page of app and starting page and adds listeners to guide the user to next display activities
     private void configureMainButtons() {
 
         final ImageButton addUser = (ImageButton) findViewById(R.id.addUserButton);

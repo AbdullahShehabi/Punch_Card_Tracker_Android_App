@@ -1,10 +1,7 @@
 package com.xerorex.buvit;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +22,7 @@ public class RemoveUserActivity extends AppCompatActivity {
         populateFoundUsersList();
     }
 
+    //Sets hint in search bar
     private void configureView() {
 
         //Search bar related methods
@@ -33,6 +31,7 @@ public class RemoveUserActivity extends AppCompatActivity {
 
     }
 
+    //Shows the users available from passed arraylist
     private void populateFoundUsersList() {
 
         ListView foundUserList = (ListView) findViewById(R.id.remove_user_activity_found_users);
@@ -68,6 +67,7 @@ public class RemoveUserActivity extends AppCompatActivity {
 
     }
 
+    //Creates AlertDialog box to confirm the removal of a userProfile
     private AlertDialog AskOption()
     {
         AlertDialog myQuittingDialogBox =new AlertDialog.Builder(this)

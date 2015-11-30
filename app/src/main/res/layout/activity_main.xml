@@ -48,7 +48,8 @@
         android:id="@+id/imageView"
         android:src="@drawable/buve_it_logo"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/searchUserButton"
+        android:layout_alignStart="@+id/searchUserButton" />
 
     <TextView
         android:layout_width="wrap_content"

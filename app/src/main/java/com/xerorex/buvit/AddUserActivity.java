@@ -1,6 +1,5 @@
 package com.xerorex.buvit;
 
-import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddUserActivity extends AppCompatActivity {
@@ -20,7 +17,11 @@ public class AddUserActivity extends AppCompatActivity {
     private boolean lname = false;
     private boolean email = false;
 
+    private EditText firstNameField = null;
+    private EditText lastNameField = null;
+    private EditText emailAddressField = null;
 
+    //OnCreate method loads display screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +30,14 @@ public class AddUserActivity extends AppCompatActivity {
         configureTextFields();
     }
 
+    //Sets hints for text fields in activity and adds listeners to check for change in text fields
     private void configureTextFields() {
 
         enableSubmitButton(fname, lname, email);
 
-        final EditText firstNameField = (EditText) findViewById(R.id.firstNameField);
-        final EditText lastNameField = (EditText) findViewById(R.id.lastNameField);
-        final EditText emailAddressField = (EditText) findViewById(R.id.emailAddress);
+        firstNameField = (EditText) findViewById(R.id.firstNameField);
+        lastNameField = (EditText) findViewById(R.id.lastNameField);
+        emailAddressField = (EditText) findViewById(R.id.emailAddress);
 
         firstNameField.setHint("First Name");
         lastNameField.setHint("Last Name");
@@ -54,8 +56,9 @@ public class AddUserActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable text) {
-                if (text.length() != 0)
+                if (text.length() != 0) {
                     fname = true;
+                }
                 else {
                     fname = false;
                 }
@@ -112,6 +115,8 @@ public class AddUserActivity extends AppCompatActivity {
 
     }
 
+
+    //Enables Submit button of this activity to add a new user to database
     private void enableSubmitButton(boolean fname, boolean lname, boolean email){
 
         ImageButton submitButton = (ImageButton) findViewById(R.id.addUserSubmitButton);
@@ -136,10 +141,77 @@ public class AddUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String firstName = firstNameField.getText().toString();
+                String lastName = lastNameField.getText().toString();
+                String email = emailAddressField.getText().toString();
+
+                if(checkName(firstName) && checkName(lastName) && checkEmail(email)){
+                    //Add User profile to database
+                    int newCard = 0;
+                    UserProfile newUserProfile = new UserProfile(firstName, lastName, email, newCard);
+
+
+                }
+                else if(!checkName(firstName) || !checkName(lastName) || !checkEmail(email)){
+                    //Reject input for invalid names
+                    if(!checkName(firstName)){
+                        Toast.makeText(getApplicationContext(), "Invalid First Name", Toast.LENGTH_SHORT);
+                    }
+                    if(!checkName(lastName)){
+                        Toast.makeText(getApplicationContext(), "Invalid Last Name", Toast.LENGTH_SHORT);
+                    }
+                    if(!checkEmail(email)){
+                        Toast.makeText(getApplicationContext(), "Invalid Email Address", Toast.LENGTH_SHORT);
+                    }
+                }
+
             }
         });
 
     }
 
+    //Confirms name only contains letters and thus rejects strings containing special characters
+    private boolean checkName(String name){
 
+        for (int i = 0; i < name.length(); i++) {
+
+            char c = name.charAt(i);
+            if (Character.isLetter(c)) {
+            }
+            else {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    //Confirms that the input is an email and rejects strings that aren't
+    private boolean checkEmail(String email){
+
+        int addressLength = email.length();
+        String lastFour = "";
+        boolean atExists = false;
+
+        for (int i = addressLength - 4; i < addressLength; i++) {
+            char character = email.charAt(i);
+            lastFour += character;
+        }
+
+
+        for (int i = 0; i < addressLength; i++) {
+            char character = email.charAt(i);
+            if(character == '@')
+                atExists = true;
+        }
+
+        if(lastFour.equals(".com") && atExists)
+            return true;
+
+        return false;
+    }
 }
+
+
+

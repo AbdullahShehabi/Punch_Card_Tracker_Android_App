@@ -1,10 +1,8 @@
 package com.xerorex.buvit;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,18 +18,20 @@ public class SearchUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
 
-        configureView();
+        configureSearchBar();
         populateFoundUsersList();
     }
 
-    private void configureView() {
+    //Adds a hint to the search bar
+    private void configureSearchBar() {
 
-        //Search bar related methods
         EditText searchBar = (EditText) findViewById(R.id.search_user_activity_search_bar);
         searchBar.setHint("Search User...");
-
     }
 
+
+
+    //Creates the list view for the display and adds the content by using a passed arraylist
     private void populateFoundUsersList() {
 
         ListView foundUserList = (ListView) findViewById(R.id.search_user_activity_found_users);
@@ -52,7 +52,7 @@ public class SearchUserActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.found_users_list_content, foundUserString);
 
-
+        //Populates the list view with the userProfile ArrayList
         foundUserList.setAdapter(adapter);
         foundUserList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
