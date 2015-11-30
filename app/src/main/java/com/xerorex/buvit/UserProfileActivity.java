@@ -40,14 +40,14 @@ public class UserProfileActivity extends AppCompatActivity {
     //Gets the passed user profile from the search activity
     private UserProfile getUserProfile(){
         UserProfile userProfile = (UserProfile) getIntent().getSerializableExtra("ChosenUserProfile");
-        usersPunches = userProfile.getNumberOfPunches();
+        usersPunches = userProfile.getNumOfPunches();
         return userProfile;
     }
 
     //Adds the name of the user to the title of the activity
     private void addProfileTitle() {
         TextView activityTitle = (TextView) findViewById(R.id.user_profile_acitivity_username);
-        activityTitle.setText((CharSequence) userProfile.getFull_name());
+        activityTitle.setText((CharSequence) userProfile.getFullName());
     }
 
     //Adds the punch marks available in the UserProfileActivity to show how many the user orginally had and allows to add more
@@ -199,7 +199,7 @@ public class UserProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userProfile.setNumberOfPunches(usersPunches);
+                userProfile.setNumOfPunches(usersPunches);
             }
         });
 
