@@ -50,9 +50,7 @@
         android:paddingBottom="20dp"
         android:background="@color/white"
         android:layout_below="@+id/emailAddress"
-        android:layout_centerHorizontal="true"
-        android:nestedScrollingEnabled="false"
-        android:onClick="addUser" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

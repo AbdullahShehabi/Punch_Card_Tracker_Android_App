@@ -1,23 +1,14 @@
 package com.xerorex.buvit;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import com.xerorex.buvit.ProfileHandler.MyLocalBinder;
-
-
+import android.widget.Toast;
 
 public class AddUserActivity extends AppCompatActivity {
 
@@ -29,20 +20,12 @@ public class AddUserActivity extends AppCompatActivity {
     private EditText firstNameField = null;
     private EditText lastNameField = null;
     private EditText emailAddressField = null;
-    private UserProfile newUserProfile;
-
-    ProfileHandler profileService;
-    boolean profileServiceIsBound = false;
-
 
     //OnCreate method loads display screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
-
-        Intent profileIntent = new Intent(this, ProfileHandler.class);
-        bindService(profileIntent, profileConnection, Context.BIND_AUTO_CREATE );
 
         configureTextFields();
     }
@@ -144,6 +127,7 @@ public class AddUserActivity extends AppCompatActivity {
             submitButton.setImageDrawable(submitButtonIcon);
 
             //Enter Submit button functionality here
+
             submitButtonState = true;
         }
         else{
@@ -153,109 +137,80 @@ public class AddUserActivity extends AppCompatActivity {
             submitButtonState = false;
         }
 
-//        submitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-////                String firstName = firstNameField.getText().toString();
-////                String lastName = lastNameField.getText().toString();
-////                String email = emailAddressField.getText().toString();
-////
-//////                if(checkName(firstName) && checkName(lastName) && checkEmail(email)){
-////                    //Add User profile to database
-////                    newUserProfile = new UserProfile();
-////
-////                    int newCard = 0;
-////                    newUserProfile.setFirst_Name(firstName);
-////                    newUserProfile.setLast_Name(lastName);
-////                    newUserProfile.setEmail_address(email);
-////                    newUserProfile.setNumOfPunches(newCard);
-////
-////                    Log.d("testing", newUserProfile.getEmail_address());
-//
-//
-//
-////                }
-////                else if(!checkName(firstName) || !checkName(lastName) || !checkEmail(email)){
-////                    //Reject input for invalid names
-////                    if(!checkName(firstName)){
-////                        Toast.makeText(getApplicationContext(), "Invalid First Name", Toast.LENGTH_SHORT);
-////                    }
-////                    if(!checkName(lastName)){
-////                        Toast.makeText(getApplicationContext(), "Invalid Last Name", Toast.LENGTH_SHORT);
-////                    }
-////                    if(!checkEmail(email)){
-////                        Toast.makeText(getApplicationContext(), "Invalid Email Address", Toast.LENGTH_SHORT);
-////                    }
-////                }
-//
-//            }
-//        });
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String firstName = firstNameField.getText().toString();
+                String lastName = lastNameField.getText().toString();
+                String email = emailAddressField.getText().toString();
+
+                if(checkName(firstName) && checkName(lastName) && checkEmail(email)){
+                    //Add User profile to database
+                    int newCard = 0;
+                    UserProfile newUserProfile = new UserProfile(firstName, lastName, email, newCard);
+
+
+                }
+                else if(!checkName(firstName) || !checkName(lastName) || !checkEmail(email)){
+                    //Reject input for invalid names
+                    if(!checkName(firstName)){
+                        Toast.makeText(getApplicationContext(), "Invalid First Name", Toast.LENGTH_SHORT);
+                    }
+                    if(!checkName(lastName)){
+                        Toast.makeText(getApplicationContext(), "Invalid Last Name", Toast.LENGTH_SHORT);
+                    }
+                    if(!checkEmail(email)){
+                        Toast.makeText(getApplicationContext(), "Invalid Email Address", Toast.LENGTH_SHORT);
+                    }
+                }
+
+            }
+        });
 
     }
 
-//    //Confirms name only contains letters and thus rejects strings containing special characters
-//    private boolean checkName(String name){
-//
-//        for (int i = 0; i < name.length(); i++) {
-//
-//            char c = name.charAt(i);
-//            if (Character.isLetter(c)) {
-//            }
-//            else {
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//
-//    }
-//
-//    //Confirms that the input is an email and rejects strings that aren't
-//    private boolean checkEmail(String email){
-//
-//        int addressLength = email.length();
-//        String lastFour = "";
-//        boolean atExists = false;
-//
-//        for (int i = addressLength - 4; i < addressLength; i++) {
-//            char character = email.charAt(i);
-//            lastFour += character;
-//        }
-//
-//
-//        for (int i = 0; i < addressLength; i++) {
-//            char character = email.charAt(i);
-//            if(character == '@')
-//                atExists = true;
-//        }
-//
-//        if(lastFour.equals(".com") && atExists)
-//            return true;
-//
-//        return false;
-//    }
+    //Confirms name only contains letters and thus rejects strings containing special characters
+    private boolean checkName(String name){
 
-    public void addUser(View view){
+        for (int i = 0; i < name.length(); i++) {
 
-        profileService.test();
+            char c = name.charAt(i);
+            if (Character.isLetter(c)) {
+            }
+            else {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
+    //Confirms that the input is an email and rejects strings that aren't
+    private boolean checkEmail(String email){
 
-    private ServiceConnection profileConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MyLocalBinder profileBinder = (MyLocalBinder) service;
-            profileService = profileBinder.getService();
-            profileServiceIsBound = true;
+        int addressLength = email.length();
+        String lastFour = "";
+        boolean atExists = false;
+
+        for (int i = addressLength - 4; i < addressLength; i++) {
+            char character = email.charAt(i);
+            lastFour += character;
         }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            profileServiceIsBound = false;
 
+        for (int i = 0; i < addressLength; i++) {
+            char character = email.charAt(i);
+            if(character == '@')
+                atExists = true;
         }
-    };
+
+        if(lastFour.equals(".com") && atExists)
+            return true;
+
+        return false;
+    }
 }
 
 
